@@ -25,10 +25,16 @@
   <!-- Menu lateral -->
   <ul id="side-menu" class="sidenav side-menu">
     <li><a class="subheader">UberEatsCUDEC</a></li>
+
+
     <li><a href="/" class="waves-effect">Inicio</a></li>
+
     <li><a href="/pages/about.html" class="waves-effect">Acerca</a></li>
-    <li><a href="/pages/pedidos.html" class="waves-effect">
-      <i class="waves-effect"></i>Pedidos</a></li>
+
+
+    <li><a href="/pages/pedidos.html" class="waves-effect">Pedidos</a></li>
+
+
     <li><div class="divider"></div></li>
     <li><a href="/pages/contact.html" class="waves-effect">
       <i class="material-icons">mail_outline</i>Contacto</a></li>
@@ -42,16 +48,9 @@
 <div class="recipes container grey-text text-darken-1">
   <label for="platillos">Selecciona un platillo:</label>
   
-  <select id="platillos" name="platillos" class="browser-default">
-    <option value="" disabled selected>-- Elige una opción --</option>
-    <option value="tacos">Tacos</option>
-    <option value="quesadillas">Quesadillas</option>
-    <option value="sopes">Sopes</option>
-    <option value="enchiladas">Enchiladas</option>
+  <select id="listaPlatillos" name="platillos" class="browser-default">
   </select>
 </div>
-
-
 
 
 
@@ -66,7 +65,16 @@
     </div>
 
 </div>
+
+  <script src="https://www.gstatic.com/firebasejs/6.0.1/firebase-app.js">
+  </script>
+
+  <script src="https://www.gstatic.com/firebasejs/6.0.1/firebase-firestore.js">
+  </script>
+ 
+     <script src="/js/firebase.js"></script>
   <script src="/js/pedidos.js"></script>
-  <script src="/js/db.js"></script>
+
+  
 </body>
 </html>
