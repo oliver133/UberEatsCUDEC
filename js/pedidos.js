@@ -26,3 +26,19 @@ ${platillo.nombre} </option>`;
 document.getElementById('listaPlatillos').innerHTML=contenidoLista;
 }
 M.AutoInit();
+
+
+
+
+btnGuardarPedido = document.getElementById('btnGuardarPedido');
+let contenido ="";
+
+btnGuardarPedido.addEventListener('click', function() {
+  alert('pedido agregado');
+});
+
+function actualizarPlatillo(pedido, id){
+  let tarjeta =document.getElementById(`${id}`);
+  tarjeta.querySelector(".recipe-title").innerHTML = pedido.platillo;
+  tarjeta.querySelector(".recipe-ingredients").innerHTML = pedido.dirrecion;
+}
