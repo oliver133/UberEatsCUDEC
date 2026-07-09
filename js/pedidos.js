@@ -54,6 +54,7 @@ btnGuardarPedido.addEventListener('click', function() {
   const pedidoNuevo = {
     platilloId: platilloId,
     usuario: usuarionombre,
+    platilloNombre:  platilloNombre,
     dirrecion: direccion
   };
 
@@ -95,15 +96,24 @@ document.getElementById('btnUbicacion').addEventListener('click', function() {
 function exito(posicion) {
   let latitud = posicion.coords.latitude;
   let longitud = posicion.coords.longitude;
-  fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitud}&lon=${longitud} `, {
+
+  fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitud}&lon=${longitud}&format=json `, {
     headers: {
       'User-Agent': 'UberEatsOliver/ (olialejandro450@gmail.com)'
     }
   })
+  
   .then(respuesta => respuesta.json())
-  .then(data => alert(data.display_name))
+
+  .then(data =>{
+      let ciudad = data.address.city;
+  let pais = data.address.country;
+  document.getElementById("Direccion").value = `${ciudad}, ${pais}`;
+ 
+  })
   .catch(error =>  console.error(error));
   
+
 }
 function error() {
   M.toast({html: 'No se pudo obtener la ubicación'});
