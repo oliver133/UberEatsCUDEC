@@ -34,11 +34,77 @@ btnGuardarPedido = document.getElementById('btnGuardarPedido');
 let contenido ="";
 
 btnGuardarPedido.addEventListener('click', function() {
-  alert('pedido agregado');
+
+  const selectPlatillos = document.getElementById('listaPlatillos');
+  const inputDireccion = document.getElementById('Direccion');
+  const inputUsuario = document.getElementById('nombre');
+
+
+  const platilloId = selectPlatillos.value;
+  const platilloNombre = selectPlatillos.options[selectPlatillos.selectedIndex].text;
+  const usuarionombre = inputUsuario.value.trim();
+  const direccion = inputDireccion.value.trim();
+
+
+  if (!platilloId || !direccion) {
+    alert('Selecciona las opciones paro');
+    return;
+  }
+
+  const pedidoNuevo = {
+    platilloId: platilloId,
+    usuario: usuarionombre,
+    dirrecion: direccion
+  };
+
+  db.collection("pedidos").add(pedidoNuevo)
+    .then(() => {
+      alert('pedido agregado');
+      inputDireccion.value = "";
+      inputUsuario.value= "";
+    })
+    .catch((error) => {
+      console.log(error);
+      alert('error al agregar pedido');
+    });
 });
 
 function actualizarPlatillo(pedido, id){
   let tarjeta =document.getElementById(`${id}`);
   tarjeta.querySelector(".recipe-title").innerHTML = pedido.platillo;
   tarjeta.querySelector(".recipe-ingredients").innerHTML = pedido.dirrecion;
+}
+
+
+btnCanselar.addEventListener('click', function() {
+    window.location.href = "/index.html"; 
+          inputDireccion.value = "";
+          inputUsuario.value = "";
+});
+
+
+document.getElementById('btnUbicacion').addEventListener('click', function() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(exito, error); 
+      
+    ;
+  }
+});
+
+
+function exito(posicion) {
+  let latitud = posicion.coords.latitude;
+  let longitud = posicion.coords.longitude;
+  fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitud}&lon=${longitud} `, {
+    headers: {
+      'User-Agent': 'UberEatsOliver/ (olialejandro450@gmail.com)'
+    }
+  })
+  .then(respuesta => respuesta.json())
+  .then(data => alert(data.display_name))
+  .catch(error =>  console.error(error));
+  
+}
+function error() {
+  M.toast({html: 'No se pudo obtener la ubicación'});
 }
