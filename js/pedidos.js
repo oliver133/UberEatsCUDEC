@@ -102,18 +102,20 @@ function exito(posicion) {
       'User-Agent': 'UberEatsOliver/ (olialejandro450@gmail.com)'
     }
   })
-  
   .then(respuesta => respuesta.json())
-
   .then(data =>{
       let ciudad = data.address.city;
-  let pais = data.address.country;
+      let pais = data.address.country;
   document.getElementById("Direccion").value = `${ciudad}, ${pais}`;
- 
+
+  var map = L.map('mapa').setView([latitud, longitud],13);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19, 
+    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
+  var marker = L.marker([latitud, longitud]).addTo(map);
   })
   .catch(error =>  console.error(error));
-  
-
 }
 function error() {
   M.toast({html: 'No se pudo obtener la ubicación'});
