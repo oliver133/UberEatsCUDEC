@@ -1,8 +1,6 @@
 {
-  "name": "UberEatsCUDEC",
-  "theme_color": "#535353",
   "short_name": "UberEatsCUDEC",
-  "display": "standalone",
+  "display": "fullscreen",
   "orientation": "portrait",
   "lang": "es",
   "icons": [
