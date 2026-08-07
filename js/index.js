@@ -61,7 +61,7 @@ document.querySelector('.recipes').addEventListener('click', function(e) {
     });
 });
 
-// ----- Captura de foto con la cámara -----
+
 let streaming = false;
 const width = 100;
 let height = 0;
@@ -107,7 +107,7 @@ function limpiarFoto(){
 }
 
 function capturarFoto(){
-  const contexto = canvas.getContext("2d");
+  const contexto = canvas.getContmext("2d");
   if (width && height){
     canvas.width = width;
     canvas.height = height;
