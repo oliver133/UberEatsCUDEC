@@ -62,3 +62,52 @@ document.querySelector('.recipes').addEventListener('click', function(e) {
       alert('Error al eliminar el platillo');
     });
 });
+
+let streaming = false;
+
+const width = 100;
+
+const height = 0;
+
+const video=document.getElementById("video");
+
+const canvas= document.getElementById("canvas");
+
+const foto= document.getElementById("foto");
+
+function tomarFoto(){
+  const contexto = canvas.getContext("2d");
+  if(width&&height){
+    canvas.width=width;
+    canvas.height=height;
+    contexto.drawImage(video,0,0,width,height);
+    const fotoFinal=canvas.toDataUrl("image/png");
+    foto.setAttribute("src", fotoFinal);
+  }
+  else{
+    limpiarfoto();
+  }
+}
+
+video.addEventListener("canplay", function(){
+  if(!streaming){
+    height = video.videoheight/(video.videoWidth/width);
+    video.setAttribute("height", height);
+    video.setAttribute("width",width);
+    streaming=true;
+  }
+})
+
+function tomarFoto(){
+  const contexto=canvas.getContext("2d");
+  if(width&&height){
+    canvas.width=width;
+    canvas.height=height;
+    contexto.drawImage(video,0,0,width, height);
+    const fotoFinal=canvas.DtaUrl("image/png");
+    foto.setAttribute("src",fotoFinal);
+  }
+  else{
+    limpiarfoto();
+  }
+}
