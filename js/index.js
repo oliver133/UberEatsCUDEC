@@ -1,5 +1,5 @@
-btnAgregarPlatillo = document.getElementById('btnAgregarPlatillo');
-let contenido ="";
+const btnAgregarPlatillo = document.getElementById('btnAgregarPlatillo');
+let contenido = "";
 
 document.addEventListener('DOMContentLoaded', function() {
   // nav menu
@@ -15,8 +15,8 @@ btnAgregarPlatillo.addEventListener('click', function() {
 });
 
 function mostrarPlatillo(platillo, id){
- contenido += 
-  `<div class="card-panel recipe white row" id="${id}"> 
+  contenido +=
+  `<div class="card-panel recipe white row" id="${id}">
     <div class= "recipe-details">
       <div class= "recipe-title">
          Nombre: ${platillo.nombre}
@@ -26,24 +26,22 @@ function mostrarPlatillo(platillo, id){
       </div>
       <div class="recipe-price">
   Precio: $${platillo.precio}
-      </div> 
+      </div>
     </div>
       <div class="recipe-delete">
         <i class="material-icons" data-id="${id}">delete_outline</i>
       </div>
 
   </div>`;
-document.querySelector('.recipes').innerHTML = contenido
+  document.querySelector('.recipes').innerHTML = contenido;
 }
-
 
 function actualizarPlatillo(platillo, id){
-  let tarjeta =document.getElementById(`${id}`);
+  let tarjeta = document.getElementById(`${id}`);
   tarjeta.querySelector(".recipe-title").innerHTML = platillo.nombre;
   tarjeta.querySelector(".recipe-ingredients").innerHTML = platillo.ingredientes;
-    tarjeta.querySelector(".recipe-price").innerHTML = platillo.precio;
+  tarjeta.querySelector(".recipe-price").innerHTML = platillo.precio;
 }
-
 
 document.querySelector('.recipes').addEventListener('click', function(e) {
   const icono = e.target.closest('.recipe-delete .material-icons');
@@ -63,51 +61,65 @@ document.querySelector('.recipes').addEventListener('click', function(e) {
     });
 });
 
+// ----- Captura de foto con la cámara -----
 let streaming = false;
-
 const width = 100;
+let height = 0;
 
-const height = 0;
+const video = document.getElementById("video");
+const canvas = document.getElementById("canvas");
+const foto = document.getElementById("foto");
+const btnFoto = document.getElementById('btnFoto');
+const btnCapturar = document.getElementById('tomarFoto');
 
-const video=document.getElementById("video");
-
-const canvas= document.getElementById("canvas");
-
-const foto= document.getElementById("foto");
-
-function tomarFoto(){
-  const contexto = canvas.getContext("2d");
-  if(width&&height){
-    canvas.width=width;
-    canvas.height=height;
-    contexto.drawImage(video,0,0,width,height);
-    const fotoFinal=canvas.toDataUrl("image/png");
-    foto.setAttribute("src", fotoFinal);
-  }
-  else{
-    limpiarfoto();
-  }
-}
+btnFoto.addEventListener("click", function(e){
+  e.preventDefault();
+  navigator.mediaDevices
+    .getUserMedia({
+      video: {
+        facingMode: { ideal: "environment" }
+      },
+      audio: false
+    })
+    .then((stream) => {
+      video.srcObject = stream;
+      video.play();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
 
 video.addEventListener("canplay", function(){
-  if(!streaming){
-    height = video.videoheight/(video.videoWidth/width);
+  if (!streaming){
+    height = video.videoHeight / (video.videoWidth / width);
+    video.setAttribute("width", width);
     video.setAttribute("height", height);
-    video.setAttribute("width",width);
-    streaming=true;
+    streaming = true;
   }
-})
+});
 
-function tomarFoto(){
-  const contexto=canvas.getContext("2d");
-  if(width&&height){
-    canvas.width=width;
-    canvas.height=height;
-    contexto.drawImage(video,0,0,width, height);
-    const fotoFinal=canvas.DtaUrl("image/png");
-    foto.setAttribute("src",fotoFinal);
-  }
-  else{
-    limpiarfoto();
+function limpiarFoto(){
+  const contexto = canvas.getContext("2d");
+  contexto.fillStyle = "#AAA";
+  contexto.fillRect(0, 0, canvas.width, canvas.height);
+  foto.setAttribute("src", "");
+}
+
+function capturarFoto(){
+  const contexto = canvas.getContext("2d");
+  if (width && height){
+    canvas.width = width;
+    canvas.height = height;
+    contexto.drawImage(video, 0, 0, width, height);
+    const fotoFinal = canvas.toDataURL("image/png");
+    foto.setAttribute("src", fotoFinal);
+  } else {
+    limpiarFoto();
   }
 }
+
+btnCapturar.addEventListener("click", function(e){
+  e.preventDefault();
+  capturarFoto();
+});
