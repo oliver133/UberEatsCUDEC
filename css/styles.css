@@ -73,3 +73,6 @@ input{
 form .input-field{
   margin-top: 30px;
 }
+#canvas{
+  display: none;
+}
